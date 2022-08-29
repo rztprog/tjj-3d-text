@@ -1,4 +1,4 @@
-# Three.js Journey
+# 3D Text THREEJS
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
@@ -14,3 +14,5 @@ npm run dev
 # Build for production in the dist/ directory
 npm run build
 ```
+
+(Three.js Journey)
