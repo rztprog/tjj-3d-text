@@ -4,33 +4,32 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
-import { PlaneHelper } from 'three'
 
 /**
  * Base
  */
 // Debug
-const panel = new dat.GUI()
+const panel = new dat.GUI();
 
 // Canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector('canvas.webgl');
 
 // Scene
-const scene = new THREE.Scene()
+const scene = new THREE.Scene();
 
 /**
  * Textures
  */
-let matcapNumber = {number: 10}
-const textureLoader = new THREE.TextureLoader()
-const matCapTexture = textureLoader.load(`textures/matcaps/${matcapNumber.number}.png`)
-const material = new THREE.MeshMatcapMaterial({ matcap: matCapTexture })
+const matcapNumber = 10;
+const textureLoader = new THREE.TextureLoader();
+const matCapTexture = textureLoader.load(`textures/matcaps/${matcapNumber}.png`);
+const material = new THREE.MeshMatcapMaterial({ matcap: matCapTexture });
 
 /**
  * Fonts
  */
 
-const fontLoader = new FontLoader()
+const fontLoader = new FontLoader();
 
 fontLoader.load(
     '/fonts/Cyberpunk_Regular.json',
