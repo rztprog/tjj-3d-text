@@ -18,6 +18,9 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
+// Clock
+const clock = new THREE.Clock()
+
 /**
  * Textures
  */
@@ -53,37 +56,36 @@ fontLoader.load(
         // Add text to scene
         const text = new THREE.Mesh(textGeometry, material)
         scene.add(text)
+        textGeometry.center()
 
         // Variables
-        textGeometry.center()
         material.wireframe = false
         const rotationSpeed = { speed: 0 }
-        let randomColorArray = [0xff00ff, 0x00ff00, 0x0000ff]
-
-        // REWORK THIS PARAMETERS
+        const randomColorArray = [0xff00ff, 0x00ff00, 0x0000ff, 0xffff00]
+        let lastPicker = 0;
         const parameters = {
                 color: 0xbbbbbb,
                 spin: () => {
                     gsap.to(text.rotation, { duration: 1, y: text.rotation.y + Math.PI * 2 })
                 },
                 randomcolor: () => {
-                    // Rework this feature
-                    let randomNumber = Math.floor(Math.random() * 3)
-
-                    console.log(randomColorArray.indexOf(parameters.color))
-
-                    material.color.set(randomColorArray[randomNumber])
+                    material.color.set(randomColorArray[lastPicker])
+                    lastPicker == randomColorArray.length - 1 ? lastPicker = 0 : lastPicker += 1
+                },
+                clearcolor: () => {
+                    material.color.set(0xffffff)
                 }
         }
             
         // Panel part
         panel.add(material, 'wireframe', true, false).name("Material Wireframe")
-        panel.addColor(parameters, "color").onChange(() =>{
+        panel.addColor(parameters, "color").onChange( () => {
             material.color.set(parameters.color)
         }).name("Material color")
-        panel.add(parameters, "spin").name("Spin text")
+        // panel.add(parameters, "spin").name("Spin text") Cannot ad this because i have already rotation animation
         panel.add(parameters, "randomcolor").name("Randomcolor (RGB)")
-        panel.add(rotationSpeed, "speed").min(0).max(100).step(0.1).name("Text Rotation Speed")
+        panel.add(parameters, "clearcolor").name("Clear color")
+        panel.add(rotationSpeed, "speed").min(0).max(6).step(0.05).name("Text Rotation Speed")
 
         const textTick = () =>
         {
@@ -186,8 +188,6 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Animations
  */
-const clock = new THREE.Clock()
-
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
