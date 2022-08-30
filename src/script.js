@@ -1,10 +1,10 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import gsap from 'gsap'
+import * as dat from 'lil-gui'
 
 /**
  * Base
@@ -60,12 +60,14 @@ fontLoader.load(
         const rotationSpeed = { speed: 0 }
         let randomColorArray = [0xff00ff, 0x00ff00, 0x0000ff]
 
+        // REWORK THIS PARAMETERS
         const parameters = {
                 color: 0xbbbbbb,
                 spin: () => {
-                    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 })
+                    gsap.to(text.rotation, { duration: 1, y: text.rotation.y + Math.PI * 2 })
                 },
                 randomcolor: () => {
+                    // Rework this feature
                     let randomNumber = Math.floor(Math.random() * 3)
 
                     console.log(randomColorArray.indexOf(parameters.color))
@@ -82,7 +84,6 @@ fontLoader.load(
         panel.add(parameters, "spin").name("Spin text")
         panel.add(parameters, "randomcolor").name("Randomcolor (RGB)")
         panel.add(rotationSpeed, "speed").min(0).max(100).step(0.1).name("Text Rotation Speed")
-
 
         const textTick = () =>
         {
